@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Bienvenido!
+{% endblock %}
+
+{% block stylesheets %} 
+
+<link href="signin.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block body %}
+
+
+
+{% if error %}
+<div class="alert alert-danger" role="alert">
+  <strong>Ups!</strong> {{error.messageKey}}
+</div>
+
+{% endif %}
+
+
+
+
+    <form class="form-signin" action='{{ path('login') }}' method="POST">
+      <img class="mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">Por favor, identificate</h1>
+      <label for="inputEmail" class="sr-only">Correo electrónico</label>
+      <input type="email" name="_username" class="form-control" placeholder="Email address" required autofocus value="{{ last_username }}">
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" name="_password" class="form-control" placeholder="Password" required>
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Recordarme
+        </label>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
+      <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
+    </form>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}New Module{% endblock %}
+
+{% block body %}
+    <h1>Crear Modulo</h1>
+
+    {{ include('module/_form.html.twig') }}
+
+    <a href="{{ path('module_index') }}">Regresar</a>
+{% endblock %}
