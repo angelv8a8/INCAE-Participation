@@ -16,6 +16,8 @@ class CourseType extends AbstractType
             ->add('description')
             ->add('code')
             ->add('module')
+            ->add('teachers')
+            ->add('students')
         ;
     }
 

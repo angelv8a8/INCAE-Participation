@@ -20,9 +20,20 @@ class User implements UserInterface, \Serializable
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255 , unique=true)
+     * @ORM\Column(type="integer", unique=true)
      */
-    private $username;
+    private $incaeId;
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -45,15 +56,32 @@ class User implements UserInterface, \Serializable
     private $fullName;
 
     /**
-     * One User has Many assignements.
-     * @ORM\OneToMany(targetEntity="UserCourseAssignement", mappedBy="user")
+     * Many Students have Many Courses.
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="students")
      */
-    private $assignements;
+    private $studentCourses;
 
+    /**
+     * Many Teachers have Many Courses.
+     * @ORM\ManyToMany(targetEntity="Course", mappedBy="teachers")
+     */
+    private $teacherCourses;
+
+    /**
+     * Many Users have Many Roles.
+     * @ORM\ManyToMany(targetEntity="Role", mappedBy="users")
+     * @ORM\JoinTable(name="user_roles",
+     *     joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="role", referencedColumnName="id")}
+     * )
+     */
+    private $userRoles;
 
     public function __construct()
     {
-        $this->assignements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->studentCourses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->teacherCourses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->userRoles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,17 +89,6 @@ class User implements UserInterface, \Serializable
         return $this->id;
     }
 
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
 
     public function getPassword(): ?string
     {
@@ -93,7 +110,6 @@ class User implements UserInterface, \Serializable
     public function setEmail(string $email): self
     {
         $this->email = $email;
-        $this->username = $username;
 
         return $this;
     }
@@ -124,11 +140,14 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        if($this->getUsername() == 'admin')
+        $grantedRoles = array();
+        foreach($this->userRoles as $role)
         {
-            return ['ROLE_USER','ROLE_ADMIN'];
+
+            $grantedRoles[] = $role->getCode();
+
         }
-        return ['ROLE_USER'];
+        return $grantedRoles;
         
     }
     
@@ -147,7 +166,6 @@ class User implements UserInterface, \Serializable
         return serialize(
             [
                 $this->id,
-                $this->username,
                 $this->email,
                 $this->password
             ]
@@ -157,38 +175,138 @@ class User implements UserInterface, \Serializable
     {
         list (
             $this->id,
-            $this->username,
             $this->email,
             $this->password
         ) = unserialize($string, ['allowed_classes' =>  false]);
     }
 
-    /**
-     * @return Collection|UserCourseAssignement[]
-     */
-    public function getAssignements(): Collection
+   
+
+    public function getIncaeId(): ?int
     {
-        return $this->assignements;
+        return $this->incaeId;
     }
 
-    public function addAssignement(UserCourseAssignement $assignement): self
+    public function setIncaeId(int $incaeId): self
     {
-        if (!$this->assignements->contains($assignement)) {
-            $this->assignements[] = $assignement;
-            $assignement->setUser($this);
+        $this->incaeId = $incaeId;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return Collection|Course[]
+     */
+    public function getStudentCourses(): Collection
+    {
+        return $this->studentCourses;
+    }
+
+    public function addStudentCourse(Course $studentCourse): self
+    {
+        if (!$this->studentCourses->contains($studentCourse)) {
+            $this->studentCourses[] = $studentCourse;
+            $studentCourse->addStudent($this);
         }
 
         return $this;
     }
 
-    public function removeAssignement(UserCourseAssignement $assignement): self
+    public function removeStudentCourse(Course $studentCourse): self
     {
-        if ($this->assignements->contains($assignement)) {
-            $this->assignements->removeElement($assignement);
-            // set the owning side to null (unless already changed)
-            if ($assignement->getUser() === $this) {
-                $assignement->setUser(null);
-            }
+        if ($this->studentCourses->contains($studentCourse)) {
+            $this->studentCourses->removeElement($studentCourse);
+            $studentCourse->removeStudent($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Course[]
+     */
+    public function getTeacherCourses(): Collection
+    {
+        return $this->teacherCourses;
+    }
+
+    public function addTeacherCourse(Course $teacherCourse): self
+    {
+        if (!$this->teacherCourses->contains($teacherCourse)) {
+            $this->teacherCourses[] = $teacherCourse;
+            $teacherCourse->addTeacher($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeacherCourse(Course $teacherCourse): self
+    {
+        if ($this->teacherCourses->contains($teacherCourse)) {
+            $this->teacherCourses->removeElement($teacherCourse);
+            $teacherCourse->removeTeacher($this);
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->fullName . ' (' . $this->email . ')';
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getUserRoles(): Collection
+    {
+        return $this->userRoles;
+    }
+
+    public function addUserRole(Role $userRole): self
+    {
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles[] = $userRole;
+            $userRole->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRole(Role $userRole): self
+    {
+        if ($this->userRoles->contains($userRole)) {
+            $this->userRoles->removeElement($userRole);
+            $userRole->removeUser($this);
         }
 
         return $this;

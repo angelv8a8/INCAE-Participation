@@ -47,15 +47,25 @@ class Course
     public $sessions;
 
     /**
-     * One Course has Many users.
-     * @ORM\OneToMany(targetEntity="UserCourseAssignement", mappedBy="course")
+     * Many Courses have Many Users.
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="studentCourses")
+     * @ORM\JoinTable(name="course_students")
      */
-    private $assignements;
+    private $students;
 
+    /**
+     * Many Courses have Many Teachers.
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="teacherCourses")
+     * @ORM\JoinTable(name="course_teachers")
+     */
+    private $teachers;
+
+    
     public function __construct()
     {
         $this->sessions = new ArrayCollection();
-        $this->assignements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->students = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->teachers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,33 +153,55 @@ class Course
     }
 
     /**
-     * @return Collection|UserCourseAssignement[]
+     * @return Collection|User[]
      */
-    public function getAssignements(): Collection
+    public function getStudents(): Collection
     {
-        return $this->assignements;
+        return $this->students;
     }
 
-    public function addAssignement(UserCourseAssignement $assignement): self
+    public function addStudent(User $student): self
     {
-        if (!$this->assignements->contains($assignement)) {
-            $this->assignements[] = $assignement;
-            $assignement->setCourse($this);
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
         }
 
         return $this;
     }
 
-    public function removeAssignement(UserCourseAssignement $assignement): self
+    public function removeStudent(User $student): self
     {
-        if ($this->assignements->contains($assignement)) {
-            $this->assignements->removeElement($assignement);
-            // set the owning side to null (unless already changed)
-            if ($assignement->getCourse() === $this) {
-                $assignement->setCourse(null);
-            }
+        if ($this->students->contains($student)) {
+            $this->students->removeElement($student);
         }
 
         return $this;
     }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getTeachers(): Collection
+    {
+        return $this->teachers;
+    }
+
+    public function addTeacher(User $teacher): self
+    {
+        if (!$this->teachers->contains($teacher)) {
+            $this->teachers[] = $teacher;
+        }
+
+        return $this;
+    }
+
+    public function removeTeacher(User $teacher): self
+    {
+        if ($this->teachers->contains($teacher)) {
+            $this->teachers->removeElement($teacher);
+        }
+
+        return $this;
+    }
+
 }

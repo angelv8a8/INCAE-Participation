@@ -12,6 +12,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            anonymous: ~
 
             form_login:
                 login_path: login
@@ -38,6 +39,7 @@ security:
          - { path: ^/admin/*, roles: ROLE_ADMIN }
          - { path: ^/profesor/*, roles: ROLE_TEACHER }
          - { path: ^/estudiante/*, roles: ROLE_STUDENT }
+         - { path: ^/*, roles: ROLE_USER }
          
          
 

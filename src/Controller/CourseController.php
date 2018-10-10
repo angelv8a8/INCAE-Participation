@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Course;
 use App\Form\CourseType;
 use App\Repository\CourseRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,15 +63,17 @@ class CourseController extends AbstractController
         $form = $this->createForm(CourseType::class, $course);
         $form->handleRequest($request);
 
+        $moduleId = $course->module->getId();
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('course_edit', ['id' => $course->getId()]);
+            return $this->redirectToRoute('module_courses', ['id' => $moduleId]);
         }
 
         return $this->render('course/edit.html.twig', [
             'course' => $course,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ]);
     }
 

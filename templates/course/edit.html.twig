@@ -1,13 +1,16 @@
 {% extends 'dashboard.html.twig' %}
 
-{% block title %}Edit Course{% endblock %}
+{% block title %}Modificar Course{% endblock %}
 
 {% block body %}
-    <h1>Edit Course</h1>
+    <h1>Modificar</h1>
 
-    {{ include('course/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('course/_form.html.twig', {'button_label': 'Guardar'}) }}
 
-    <a href="{{ path('course_index') }}">back to list</a>
+    <a class="btn btn-default" href="{{ path('course_index') }}">Volver</a>
 
     {{ include('course/_delete_form.html.twig') }}
+
+
+    
 {% endblock %}

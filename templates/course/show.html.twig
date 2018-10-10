@@ -3,7 +3,7 @@
 {% block title %}Course{% endblock %}
 
 {% block body %}
-    <h1>Course</h1>
+    <h1>Curso {{ course.name }}</h1>
 
     <table class="table">
         <tbody>
@@ -23,12 +23,35 @@
                 <th>Code</th>
                 <td>{{ course.code }}</td>
             </tr>
+            <tr>
+                <th>Profesores</th>
+                <td>
+                <ul>
+                  {% for user in course.teachers %}
+                    <li> {{ user.fullName }} ( {{ user.email }})</li>
+                {% endfor %}
+                </ul>
+                
+                </td>
+            </tr>
+            <tr>
+                <th>Estudiantes</th>
+                <td>
+                Total: {{ course.students|length}}
+                <ul>
+                  {% for user in course.students %}
+                    <li> {{ user.fullName }} ( {{ user.email }})</li>
+                {% endfor %}
+                </ul>
+                
+                </td>
+            </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('course_index') }}">back to list</a>
+    <a class="btn btn-primary" href="{{ path( 'module_courses', { 'id':course.module.id } ) }}">Volver</a>
 
-    <a href="{{ path('course_edit', {'id': course.id}) }}">edit</a>
+    <a class="btn btn-warning" href="{{ path('course_edit', {'id': course.id}) }}">Modificar</a>
 
     {{ include('course/_delete_form.html.twig') }}
 {% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}Panel Principal!{% endblock %}
+
+{% block body %}
+
+<h1>Panel Principal </h1>
+
+{% if is_granted('ROLE_ADMIN') %}
+
+    {% if app.user.teacherCourses|length > 0 %}
+    <h2>Eres profesor de:</h2>
+    <table class="table">
+    <tr>
+            <th>Curso</th>
+            <th>Modulo</th>
+            <th>Programa</th>
+            <th>Estudiantes</th>
+            <th>Sesiones</th>
+            <th>Ir</th>
+        </tr>
+        {% for course in app.user.teacherCourses %}
+            <tr>
+            <td>{{course.name}}</td>
+            <td>{{course.module.name}}</td>
+            <td>{{course.module.program.name}}</td>
+            <td>{{course.students|length}}</td>
+            <td>{{course.sessions|length}}</td>
+            <td>ir</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% else %}
+        <h2>No tiene cursos Asignados</h2>
+    {% endif %}
+
+{% endif %}
+
+{% if app.user.studentCourses|length > 0 %}
+    <h2>Eres estudiante de:</h2>
+    <table class="table">
+    <tr>
+            <th>Curso</th>
+            <th>Modulo</th>
+            <th>Programa</th>
+            <th>Estudiantes</th>
+            <th>Sesiones</th>
+            <th>Ir</th>
+        </tr>
+        {% for course in app.user.studentCourses %}
+            <tr>
+            <td>{{course.name}}</td>
+            <td>{{course.module.name}}</td>
+            <td>{{course.module.program.name}}</td>
+            <td>{{course.sessions|length}}</td>
+            <td>ir</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% else %}
+        <h2>No eres estudiante de ningun curso</h2>
+    {% endif %}
+
+
+{% endblock %}
