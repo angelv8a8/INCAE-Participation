@@ -43,6 +43,7 @@ class Course
     /**
      * One Course has Many Sessions.
      * @ORM\OneToMany(targetEntity="Session", mappedBy="course")
+     * @ORM\OrderBy({"date" = "desc"})
      */
     public $sessions;
 
@@ -202,6 +203,16 @@ class Course
         }
 
         return $this;
+    }
+
+    public function getLongName()
+    {
+        return $this->module->program->getName() . ' - ' . $this->module->getName() . ' - ' . $this->name;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
 }

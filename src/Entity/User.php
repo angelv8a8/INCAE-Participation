@@ -69,11 +69,8 @@ class User implements UserInterface, \Serializable
 
     /**
      * Many Users have Many Roles.
-     * @ORM\ManyToMany(targetEntity="Role", mappedBy="users")
-     * @ORM\JoinTable(name="user_roles",
-     *     joinColumns={@ORM\JoinColumn(name="user", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="role", referencedColumnName="id")}
-     * )
+     * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
+     * @ORM\JoinTable(name="role_users")
      */
     private $userRoles;
 
@@ -140,7 +137,7 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        $grantedRoles = array();
+        $grantedRoles = array('ROLE_USER');
         foreach($this->userRoles as $role)
         {
 
@@ -311,4 +308,5 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
+
 }

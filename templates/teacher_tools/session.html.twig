@@ -1,0 +1,43 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %} {{session.name }} {% endblock %}
+
+{% block breadcumb %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#">Inicio</a>
+    </li>
+    <li class="breadcrumb-item">Profesor</li>
+    <li class="breadcrumb-item ">{{ session.course.getLongName }}</li>
+    <li class="breadcrumb-item active">{{ session.name }}</li>
+    </ol>
+
+{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1>{{ session.name}} </h1>
+</div>
+
+<table class="table table-light">
+    <tbody>
+        <tr>
+            <th>Nombre</th>
+            <th>Nota Estudiante</th>
+            <th>Nota Profesor</th>
+            <th>Estado</th>
+        </tr>
+        {%  for review in session.userCourseSession %}
+        <tr class="{{ review.teacherReviewed ? 'table-success' : (review.studentReviewed ? 'table-warning' : 'table-secondary') }}">
+            <td>{{ review.user.fullname }}</td>
+            <td>{{ review.studentNote }}</td>
+            <td>{{ review.teacherNote }}</td>
+            <td>
+                {{ review.teacherReviewed ? 'Revisado por profesor' : (review.studentReviewed ? 'Revisado por estudiante' : 'El estudiante no ha revisado') }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

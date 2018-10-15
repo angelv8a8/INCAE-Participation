@@ -1,0 +1,28 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}{{ course.name }}!{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col">
+        <h1>{{course.name}}</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <table>
+            <tr>
+                <th>Sesión</th>
+                <th>Auto evaluación</th>
+                <th>Calificación de Profesor</th>
+                <th>Acción</th>
+            </tr>
+            {% foreach session in course.sessions%}
+
+        </table>        
+    </div>
+</div>
+
+{% endblock %}

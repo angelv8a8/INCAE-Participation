@@ -21,7 +21,7 @@
         </tr>
         {% for course in app.user.teacherCourses %}
             <tr>
-            <td>{{course.name}}</td>
+            <td><a href="{{path('teacher_course',{'id':course.id} ) }}">  {{course.name}}  </a></td>
             <td>{{course.module.name}}</td>
             <td>{{course.module.program.name}}</td>
             <td>{{course.students|length}}</td>
@@ -44,13 +44,12 @@
             <th>Curso</th>
             <th>Modulo</th>
             <th>Programa</th>
-            <th>Estudiantes</th>
             <th>Sesiones</th>
             <th>Ir</th>
         </tr>
         {% for course in app.user.studentCourses %}
             <tr>
-            <td>{{course.name}}</td>
+            <td><a href="{{path('student_course',{'id':course.id} ) }}">  {{course.name}} </a></td>
             <td>{{course.module.name}}</td>
             <td>{{course.module.program.name}}</td>
             <td>{{course.sessions|length}}</td>

@@ -1,0 +1,55 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %} {{course.name }} {% endblock %}
+
+{% block breadcumb %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#">Inicio</a>
+    </li>
+    <li class="breadcrumb-item">Profesor</li>
+    <li class="breadcrumb-item active">{{ course.getLongName }}</li>
+    </ol>
+
+{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1>{{ course.name}} </h1>
+</div>
+
+<div class="row">
+    <div class="col text-right">
+        <a href="{{path('session_new',{'id':course.id})}}" class="btn btn-success">
+    <i class="fa fa-plus"></i> Crear sesión
+</a>    
+    </div>
+</div>
+
+
+<table class="table table-light">
+    <tbody>
+        <tr>
+            <th>Nombre</th>
+            <th>Fecha</th>
+            <th>Estudiantes</th>
+            <th>Revisados</th>
+            <th>Estado</th>
+            <th>Revisión</th>
+        </tr>
+        {%  for session in course.sessions %}
+        <tr>
+            <td>{{ session.name }}</td>
+            <td>{{ session.date | date("d/m/Y") }}</td>
+            <td>{{ session.getUserCourseSession()|length }}</td>
+            <td>{{ session.userCourseSession|length }}</td>
+            <td>{{ session.studentCanUpdate ? 'Abierto a revisión':'Cerrado a revisión' }}</td>
+            <td>
+                <a class="btn btn-primary" href="{{ path('teacher_course_session', {'id':session.id}) }}">Revisión</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
