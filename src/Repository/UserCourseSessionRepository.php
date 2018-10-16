@@ -36,6 +36,23 @@ class UserCourseSessionRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+
+    public function findNexUserToReview($session)
+    {
+        return $this->createQueryBuilder('u')
+            ->innerJoin('u.courseSession', 's')
+            ->andWhere('u.courseSession = :session')
+            ->andWhere('u.teacherReviewed = :reviewed')
+            ->setParameter('session', $session)
+            ->setParameter('reviewed', false)
+            ->setMaxResults( 1 )
+            ->orderBy('u.studentNote','DESC')
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     
 
     /*

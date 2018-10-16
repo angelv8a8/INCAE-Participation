@@ -1,0 +1,71 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %} {{session.course.name }} {% endblock %}
+
+{% block breadcumb %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#">Inicio</a>
+    </li>
+    <li class="breadcrumb-item">Profesor</li>
+    <li class="breadcrumb-item active"> 
+        <a href="{{ path('teacher_course',{'id':session.course.id} ) }}">{{ session.course.getLongName }}</a>
+        </li>
+    </ol>
+
+{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1>{{ session.course.name}} </h1>
+</div>
+
+
+<div class="row">
+    <div class="col text-center">
+        <img class="list-image" src="{{ userCourseSession.user.avatar ? avatar_location ~ userCourseSession.user.avatar : 'images/default-user.png' }}" alt="">
+    </div>
+</div>
+<div class="row">
+    <div class="col text-center">
+        <h3>{{userCourseSession.user.fullname}}</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col text-center">
+        <p>Comentario:</p>
+        {% if userCourseSession.studentNote %}
+            <span>"</span> 
+            <span>{{ userCourseSession.comment}}</span>
+            <span>"</span> 
+        {% else %}
+            <span>Sin comentario</span>
+            
+        {% endif %}
+        
+    </div>
+</div>
+<div class="row">
+    <div class="col text-center">
+        <h3>Nota:</h3>
+        <span>{{userCourseSession.studentNote ? userCourseSession.studentNote : 'Sin auto-evaluación'}}</span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="row">
+                <div class="col-6 text-right">
+                    <button class="btn btn-success">{{ button_label|default('Guardar') }}</button>
+                </div>
+                <div class="col-6">
+                    <a href="{{path('teacher_course_session', {'id':session.id})}}" class="btn btn-warning">Cancelar</a>
+                </div>
+            </div>
+            
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

@@ -25,11 +25,17 @@
 
 <div class="row">
     <div class="col">
+        <h2>Sesiones</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
         <table class="table">
             <tr>
                 <th>Sesión</th>
                 <th>Auto evaluación</th>
-                <th>Comentario</th>
+                <th>Estado</th>
                 <th>Calificación de Profesor</th>
             </tr>
             {% for userCourseSession in sessions %}
@@ -37,7 +43,11 @@
                 <td>
                     {{ userCourseSession.courseSession.name}}
                 </td>
-                
+                <td>
+                        <p class="text-{{ userCourseSession.teacherReviewed ? 'success' : (userCourseSession.studentReviewed ? 'primary' : 'danger') }}">
+                        {{ userCourseSession.teacherReviewed ? 'Revisado por profesor' : (userCourseSession.studentReviewed ? 'Revisado por estudiante' : 'El estudiante no ha revisado') }}
+                        </p>
+                </td>
                 <td>
                     {{ userCourseSession.studentNote }} 
 
@@ -48,18 +58,15 @@
                         <a href="{{ path('student_session', {'id':userCourseSession.id})  }}" class="btn btn-primary">Evaluarme</a>
                     {% endif %}
                     
-                    </td>
-                <td>
-                    {{ userCourseSession.comment}}
                 </td>
                 <td>
                     {% if  userCourseSession.teacherNote  %}
-                        
+                        {{ userCourseSession.teacherNote }} 
                     {% else %}
                         <p class="text-secondary"><i class="fa fa-clock"></i> {{ 'Pendiente' }}</p>
                     {% endif %}
                     
-                    </td>
+                </td>
             </tr>
             {% endfor %}
         </table>        

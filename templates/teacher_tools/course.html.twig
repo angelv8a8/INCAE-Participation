@@ -33,7 +33,7 @@
     <tbody>
         <tr>
             <th>Nombre</th>
-            <th>Fecha</th>
+            <th class="d-none d-sm-block">Fecha</th>
             <th>Estudiantes</th>
             <th>Estado</th>
             <th>Revisión</th>
@@ -41,7 +41,7 @@
         {%  for session in sessions %}
         <tr>
             <td>{{ session[0].name }}</td>
-            <td>{{ session[0].date | date("d/m/Y") }}</td>
+            <td class="d-none d-sm-block">{{ session[0].date | date("d/m/Y") }}</td>
             <td>{{ session.reviewed }} / {{ session[0].getUserCourseSession()|length }}</td>
             <td>
                 <p  class="text-{{session[0].studentCanUpdate? 'success':'danger'}}">

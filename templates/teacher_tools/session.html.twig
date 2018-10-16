@@ -23,11 +23,13 @@
     <div class="col-12 col-md-8">
         <h1>{{ session.name}} </h1>
     </div>
+    
     <div class="col-12 col-md-4 text-right">
+        <a href="{{ path('teacher_session_review',{'id':session.id } ) }}"  class="btn btn-warning">Iniciar Revisión</a>
         {% if session.studentCanUpdate %}
             <a href="{{ path('teacher_close_session',{'id':session.id } ) }}"  class="btn btn-danger">Cerrar sessión</a>
         {% else %}
-            <a href="{{ path('teacher_open_session',{'id':session.id } ) }}" class="btn btn-success">Re-abrir</a>
+            <a href="{{ path('teacher_open_session',{'id':session.id } ) }}" class="btn btn-default">Re-abrir</a>
         {% endif %}
     </div>
 </div>
