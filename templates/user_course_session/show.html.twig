@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UserCourseSession{% endblock %}
+
+{% block body %}
+    <h1>UserCourseSession</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user_course_session.id }}</td>
+            </tr>
+            <tr>
+                <th>StudentNote</th>
+                <td>{{ user_course_session.studentNote }}</td>
+            </tr>
+            <tr>
+                <th>TeacherNote</th>
+                <td>{{ user_course_session.teacherNote }}</td>
+            </tr>
+            <tr>
+                <th>TeacherReviewed</th>
+                <td>{{ user_course_session.teacherReviewed ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>StudentReviewed</th>
+                <td>{{ user_course_session.studentReviewed ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('user_course_session_index') }}">back to list</a>
+
+    <a href="{{ path('user_course_session_edit', {'id': user_course_session.id}) }}">edit</a>
+
+    {{ include('user_course_session/_delete_form.html.twig') }}
+{% endblock %}

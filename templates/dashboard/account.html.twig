@@ -1,0 +1,30 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}Mi cuenta!{% endblock %}
+
+{% block body %}
+
+<h1>Mi cuenta</h1>
+
+<div class="row">
+    <div class="col-12 col-md-6">
+        <img src="{{avatar_location}}{{  app.user.avatar}}" alt="">
+    </div>
+    <div class="col-12 col-md-6">
+        <h3>Email:</h3>
+        <p>{{ app.user.email }}</p>
+        <a href="" class="btn btn-block btn-primary">Cambiar contraseña</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        
+    </div>
+</div>
+
+
+{{ include('dashboard/_form.html.twig', {'button_label': 'Guardar'}) }}
+
+    <a class="btn btn-danger" href="/">Cancelar</a>
+
+{% endblock %}

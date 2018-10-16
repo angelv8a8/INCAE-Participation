@@ -8,7 +8,9 @@
         <a href="#">Inicio</a>
     </li>
     <li class="breadcrumb-item">Profesor</li>
-    <li class="breadcrumb-item active">{{ course.getLongName }}</li>
+    <li class="breadcrumb-item active"> 
+        <a href="{{ path('teacher_course',{'id':course.id} ) }}">{{ course.getLongName }}</a>
+        </li>
     </ol>
 
 {% endblock %}
@@ -33,19 +35,21 @@
             <th>Nombre</th>
             <th>Fecha</th>
             <th>Estudiantes</th>
-            <th>Revisados</th>
             <th>Estado</th>
             <th>Revisión</th>
         </tr>
-        {%  for session in course.sessions %}
+        {%  for session in sessions %}
         <tr>
-            <td>{{ session.name }}</td>
-            <td>{{ session.date | date("d/m/Y") }}</td>
-            <td>{{ session.getUserCourseSession()|length }}</td>
-            <td>{{ session.userCourseSession|length }}</td>
-            <td>{{ session.studentCanUpdate ? 'Abierto a revisión':'Cerrado a revisión' }}</td>
+            <td>{{ session[0].name }}</td>
+            <td>{{ session[0].date | date("d/m/Y") }}</td>
+            <td>{{ session.reviewed }} / {{ session[0].getUserCourseSession()|length }}</td>
             <td>
-                <a class="btn btn-primary" href="{{ path('teacher_course_session', {'id':session.id}) }}">Revisión</a>
+                <p  class="text-{{session[0].studentCanUpdate? 'success':'danger'}}">
+                {{ session[0].studentCanUpdate ? 'Abierto a estudiantes':'Cerrado a estudiantes' }}
+                </p>
+                </td>
+            <td>
+                <a class="btn btn-primary" href="{{ path('teacher_course_session', {'id':session[0].id}) }}">Revisión</a>
             </td>
         </tr>
         {% endfor %}

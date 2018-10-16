@@ -8,32 +8,54 @@
         <a href="#">Inicio</a>
     </li>
     <li class="breadcrumb-item">Profesor</li>
-    <li class="breadcrumb-item ">{{ session.course.getLongName }}</li>
+    
+    <li class="breadcrumb-item ">
+        <a href="{{ path('teacher_course',{'id':session.course.id} ) }}">{{ session.course.getLongName }}</a>
+    </li>
     <li class="breadcrumb-item active">{{ session.name }}</li>
     </ol>
 
 {% endblock %}
 
 {% block body %}
-<div class="example-wrapper">
-    <h1>{{ session.name}} </h1>
+
+<div class="row">
+    <div class="col-12 col-md-8">
+        <h1>{{ session.name}} </h1>
+    </div>
+    <div class="col-12 col-md-4 text-right">
+        {% if session.studentCanUpdate %}
+            <a href="{{ path('teacher_close_session',{'id':session.id } ) }}"  class="btn btn-danger">Cerrar sessión</a>
+        {% else %}
+            <a href="{{ path('teacher_open_session',{'id':session.id } ) }}" class="btn btn-success">Re-abrir</a>
+        {% endif %}
+    </div>
 </div>
+
 
 <table class="table table-light">
     <tbody>
         <tr>
+            <th>&nbsp;</th>
             <th>Nombre</th>
             <th>Nota Estudiante</th>
+            <th>Comentario</th>
             <th>Nota Profesor</th>
             <th>Estado</th>
         </tr>
         {%  for review in session.userCourseSession %}
-        <tr class="{{ review.teacherReviewed ? 'table-success' : (review.studentReviewed ? 'table-warning' : 'table-secondary') }}">
+        <tr class="{{ review.teacherReviewed ? 'table-success' : (review.studentReviewed ? 'table-warning' : '') }}">
+            <td>
+                <img class="list-image" src="{{ review.user.avatar ? avatar_location ~ review.user.avatar : 'images/default-user.png' }}" alt="">
+            </td>
             <td>{{ review.user.fullname }}</td>
             <td>{{ review.studentNote }}</td>
+            <td>{{ review.comment }}</td>
             <td>{{ review.teacherNote }}</td>
             <td>
+                <p class="text-{{ review.teacherReviewed ? 'success' : (review.studentReviewed ? 'primary' : 'danger') }}">
                 {{ review.teacherReviewed ? 'Revisado por profesor' : (review.studentReviewed ? 'Revisado por estudiante' : 'El estudiante no ha revisado') }}
+                </p>
             </td>
         </tr>
         {% endfor %}

@@ -2,7 +2,20 @@
 
 {% block title %}{{ course.name }}!{% endblock %}
 
+
+{% block breadcumb %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#">Inicio</a>
+    </li>
+    <li class="breadcrumb-item">Estudiante</li>
+    <li class="breadcrumb-item active ">{{ course.getLongName }}</li>
+    </ol>
+{% endblock %}
+
 {% block body %}
+
+
 
 <div class="row">
     <div class="col">
@@ -12,15 +25,43 @@
 
 <div class="row">
     <div class="col">
-        <table>
+        <table class="table">
             <tr>
                 <th>Sesión</th>
                 <th>Auto evaluación</th>
+                <th>Comentario</th>
                 <th>Calificación de Profesor</th>
-                <th>Acción</th>
             </tr>
-            {% foreach session in course.sessions%}
+            {% for userCourseSession in sessions %}
+            <tr>
+                <td>
+                    {{ userCourseSession.courseSession.name}}
+                </td>
+                
+                <td>
+                    {{ userCourseSession.studentNote }} 
 
+                    {% if  not userCourseSession.studentReviewed  
+                    and userCourseSession.courseSession.studentCanUpdate
+                    and userCourseSession.teacherNote is null
+                    %}
+                        <a href="{{ path('student_session', {'id':userCourseSession.id})  }}" class="btn btn-primary">Evaluarme</a>
+                    {% endif %}
+                    
+                    </td>
+                <td>
+                    {{ userCourseSession.comment}}
+                </td>
+                <td>
+                    {% if  userCourseSession.teacherNote  %}
+                        
+                    {% else %}
+                        <p class="text-secondary"><i class="fa fa-clock"></i> {{ 'Pendiente' }}</p>
+                    {% endif %}
+                    
+                    </td>
+            </tr>
+            {% endfor %}
         </table>        
     </div>
 </div>

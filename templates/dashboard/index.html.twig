@@ -17,7 +17,6 @@
             <th>Programa</th>
             <th>Estudiantes</th>
             <th>Sesiones</th>
-            <th>Ir</th>
         </tr>
         {% for course in app.user.teacherCourses %}
             <tr>
@@ -26,7 +25,6 @@
             <td>{{course.module.program.name}}</td>
             <td>{{course.students|length}}</td>
             <td>{{course.sessions|length}}</td>
-            <td>ir</td>
             </tr>
         {% endfor %}
     </table>
@@ -45,7 +43,6 @@
             <th>Modulo</th>
             <th>Programa</th>
             <th>Sesiones</th>
-            <th>Ir</th>
         </tr>
         {% for course in app.user.studentCourses %}
             <tr>
@@ -53,7 +50,6 @@
             <td>{{course.module.name}}</td>
             <td>{{course.module.program.name}}</td>
             <td>{{course.sessions|length}}</td>
-            <td>ir</td>
             </tr>
         {% endfor %}
     </table>

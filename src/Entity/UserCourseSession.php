@@ -48,6 +48,11 @@ class UserCourseSession
      */
     private $studentReviewed = false;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $comment;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -122,6 +127,18 @@ class UserCourseSession
     public function setStudentReviewed(bool $studentReviewed): self
     {
         $this->studentReviewed = $studentReviewed;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
 
         return $this;
     }

@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
@@ -46,6 +46,11 @@ class User implements UserInterface, \Serializable
     private $email;
 
     /**
+     * @Assert\File(mimeTypes={ "image/jpg", "image/png","image/jpeg" })
+     */
+    public $avatarFile;
+
+     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
@@ -111,18 +116,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getAvatar(): ?string
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar(string $avatar): self
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
-
+    
     public function getFullName(): ?string
     {
         return $this->fullName;
@@ -305,6 +299,18 @@ class User implements UserInterface, \Serializable
             $this->userRoles->removeElement($userRole);
             $userRole->removeUser($this);
         }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

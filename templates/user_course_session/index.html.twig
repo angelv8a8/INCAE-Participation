@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UserCourseSession index{% endblock %}
+
+{% block body %}
+    <h1>UserCourseSession index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>StudentNote</th>
+                <th>TeacherNote</th>
+                <th>TeacherReviewed</th>
+                <th>StudentReviewed</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user_course_session in user_course_sessions %}
+            <tr>
+                <td>{{ user_course_session.id }}</td>
+                <td>{{ user_course_session.studentNote }}</td>
+                <td>{{ user_course_session.teacherNote }}</td>
+                <td>{{ user_course_session.teacherReviewed ? 'Yes' : 'No' }}</td>
+                <td>{{ user_course_session.studentReviewed ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('user_course_session_show', {'id': user_course_session.id}) }}">show</a>
+                    <a href="{{ path('user_course_session_edit', {'id': user_course_session.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('user_course_session_new') }}">Create new</a>
+{% endblock %}

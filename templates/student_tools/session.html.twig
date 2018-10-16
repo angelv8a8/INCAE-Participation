@@ -1,0 +1,22 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}Actualizar sesión{% endblock %}
+
+{% block breadcumb %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#">Inicio</a>
+    </li>
+    <li class="breadcrumb-item">Estudiante</li>
+    <li class="breadcrumb-item active">{{ session.courseSession.course.getLongName }}</li>
+    </ol>
+
+{% endblock %}
+{% block body %}
+    <h1>Actualizar Sesión</h1>
+
+    {{ include('user_course_session/_form.html.twig', {'button_label': 'Guardar'}) }}
+
+    <a href="{{ path('student_course', {'id':session.courseSession.course.id} ) }}">Volver</a>
+
+{% endblock %}

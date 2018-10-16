@@ -26,10 +26,12 @@ class UserCourseSessionRepository extends ServiceEntityRepository
     public function findByUserAndCourse($user, $course)
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
+            ->innerJoin('u.courseSession', 's')
+            ->andWhere('s.course = :course')
+            ->andWhere('u.user = :user')
+            ->setParameter('course', $course)
+            ->setParameter('user', $user)
+            ->orderBy('s.date', 'DESC')
             ->getQuery()
             ->getResult()
         ;
