@@ -42,7 +42,7 @@
         <tr>
             <td>{{ session[0].name }}</td>
             <td class="d-none d-sm-block">{{ session[0].date | date("d/m/Y") }}</td>
-            <td>{{ session.reviewed }} / {{ session[0].getUserCourseSession()|length }}</td>
+            <td>{{ session.studentReviewed }} / {{ session[0].getUserCourseSession()|length }}</td>
             <td>
                 <p  class="text-{{session[0].studentCanUpdate? 'success':'danger'}}">
                 {{ session[0].studentCanUpdate ? 'Abierto a estudiantes':'Cerrado a estudiantes' }}

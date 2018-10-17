@@ -28,12 +28,12 @@ class SessionRepository extends ServiceEntityRepository
     {
         // Subquery that counts the number of tags per post.
         $sub_query = '(SELECT COUNT(ucs.id) FROM App\Entity\UserCourseSession ucs WHERE ucs.studentReviewed = true AND ucs.courseSession = s.id)';
-        $sub_query = '(SELECT COUNT(ucs.id) FROM App\Entity\UserCourseSession ucs WHERE ucs.teacherReviewed = true AND ucs.courseSession = s.id)';
+        $sub_query2 = '(SELECT COUNT(ucs2.id) FROM App\Entity\UserCourseSession ucs2 WHERE ucs2.teacherReviewed = true AND ucs2.courseSession = s.id)';
 
 
         return $this->createQueryBuilder('s')
             ->addSelect($sub_query . ' as studentReviewed')
-            ->addSelect($sub_query . ' as teacherReviewed')
+            ->addSelect($sub_query2 . ' as teacherReviewed')
             ->andWhere('s.course = :course')
             ->setParameter('course', $course)
             ->orderBy('s.date', 'DESC')
