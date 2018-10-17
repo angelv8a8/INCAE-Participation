@@ -79,11 +79,17 @@ class User implements UserInterface, \Serializable
      */
     private $userRoles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="UserCourseSession", mappedBy="user",cascade={"persist", "remove"})
+     */
+    private $reviews;
+
     public function __construct()
     {
         $this->studentCourses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->teacherCourses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->userRoles = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -311,6 +317,37 @@ class User implements UserInterface, \Serializable
     public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserCourseSession[]
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(UserCourseSession $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(UserCourseSession $review): self
+    {
+        if ($this->reviews->contains($review)) {
+            $this->reviews->removeElement($review);
+            // set the owning side to null (unless already changed)
+            if ($review->getUser() === $this) {
+                $review->setUser(null);
+            }
+        }
 
         return $this;
     }
