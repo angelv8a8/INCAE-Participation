@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Course;
+use App\Entity\Module;
 use App\Form\CourseType;
 use App\Repository\CourseRepository;
 use App\Repository\UserRepository;
@@ -12,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/course")
+ * @Route("/admin/course")
  */
 class CourseController extends AbstractController
 {
@@ -25,9 +26,9 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="course_new", methods="GET|POST")
+     * @Route("/new/{id}", name="course_new", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Module $module): Response
     {
         $course = new Course();
         $form = $this->createForm(CourseType::class, $course);
@@ -35,6 +36,7 @@ class CourseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $course->setModule($module);
             $em->persist($course);
             $em->flush();
 
@@ -44,6 +46,7 @@ class CourseController extends AbstractController
         return $this->render('course/new.html.twig', [
             'course' => $course,
             'form' => $form->createView(),
+            'module' =>$module
         ]);
     }
 

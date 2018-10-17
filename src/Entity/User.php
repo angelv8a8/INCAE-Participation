@@ -74,8 +74,7 @@ class User implements UserInterface, \Serializable
 
     /**
      * Many Users have Many Roles.
-     * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
-     * @ORM\JoinTable(name="role_users")
+     * @ORM\ManyToMany(targetEntity="Role",   mappedBy="users")
      */
     private $userRoles;
 

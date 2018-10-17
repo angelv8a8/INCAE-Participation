@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Module;
 use App\Entity\Course;
+use App\Entity\Program;
 use App\Form\ModuleType;
 use App\Repository\ModuleRepository;
 use App\Repository\CourseRepository;
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/module")
+ * @Route("/admin/module")
  */
 class ModuleController extends AbstractController
 {
@@ -29,13 +30,14 @@ class ModuleController extends AbstractController
      */
     public function modules(Module $module, CourseRepository $courseRepository): Response
     {
-        return $this->render('module/courses.html.twig', ['courses' => $courseRepository->findAll(),'module' => $module]);
+        $courses = $courseRepository->findBy([ 'module' => $module]);
+        return $this->render('module/courses.html.twig', ['courses' => $courses,'module' => $module]);
     }
 
     /**
-     * @Route("/new", name="module_new", methods="GET|POST")
+     * @Route("/new/{id}", name="module_new", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Program $program): Response
     {
         $module = new Module();
         $form = $this->createForm(ModuleType::class, $module);
@@ -43,6 +45,9 @@ class ModuleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $module->setProgram($program);
+
             $em->persist($module);
             $em->flush();
 
@@ -51,6 +56,7 @@ class ModuleController extends AbstractController
         return $this->render('module/new.html.twig', [
             'module' => $module,
             'form' => $form->createView(),
+            'program'=>$program
         ]);
     }
 
@@ -67,13 +73,20 @@ class ModuleController extends AbstractController
      */
     public function edit(Request $request, Module $module): Response
     {
+        
         $form = $this->createForm(ModuleType::class, $module);
         $form->handleRequest($request);
+        
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('module_edit', ['id' => $module->getId()]);
+            $this->addFlash(
+                'success',
+                'Modulo actualizado.'
+            );
+
+            return $this->redirectToRoute('module_show', ['id' => $module->getId()]);
         }
 
         return $this->render('module/edit.html.twig', [

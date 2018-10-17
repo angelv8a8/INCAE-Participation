@@ -2,15 +2,26 @@
 
 {% block title %}Module index{% endblock %}
 
+{% block breadcumb %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Inicio</a>
+    </li>
+    <li class="breadcrumb-item"><a href="{{ path('program_index') }}"> Programas </a></li>
+    <li class="breadcrumb-item"><a href="{{path('program_modules', {'id':program.id} ) }} ">  {{ program.name }}</a> </li>
+    </ol>
+
+{% endblock %}
+
 {% block body %}
     <h1>Modulos en {{ program.name }} </h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>actions</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -19,18 +30,17 @@
                 <td>{{ module.name }}</td>
                 <td>{{ module.description }}</td>
                 <td>
-                    <a href="{{ path('module_show', {'id': module.id}) }}">show</a>
-                    <a href="{{ path('module_edit', {'id': module.id}) }}">edit</a>
-                    <a href="{{ path('module_courses', {'id': module.id}) }}">Cursos</a>
+                    <a class="btn btn-primary" href="{{ path('module_show', {'id': module.id}) }}">Ver</a>
+                    <a class="btn btn-info"  href="{{ path('module_courses', {'id': module.id}) }}">Cursos</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">No hay registros</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('module_new') }}">Create new</a>
+    <a class="btn btn-success" href="{{ path('module_new',{'id':program.id}) }}"> <i class="fa fa-plus"></i> Crear Modulo</a>
 {% endblock %}

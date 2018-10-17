@@ -2,10 +2,24 @@
 
 {% block title %}New Course{% endblock %}
 
+{% block breadcumb %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Inicio</a>
+    </li>
+    <li class="breadcrumb-item"><a href="{{ path('program_index') }}"> Programas </a></li>
+    <li class="breadcrumb-item"><a href="{{path('program_modules', {'id':module.program.id} ) }} ">  {{ module.program.name }}</a> </li>
+    <li class="breadcrumb-item"><a href="{{path('module_courses', {'id':module.id} ) }}">  {{ module.name }}</a> </li>
+    </ol>
+
+{% endblock %}
+
 {% block body %}
-    <h1>Create new Course</h1>
+    <h1>Crear curso</h1>
+
+    <p>Agregar curso a <b>{{module.name}}</b></p>
 
     {{ include('course/_form.html.twig') }}
 
-    <a href="{{ path('course_index') }}">back to list</a>
+    <a class="btn btn-primary" href="{{path('module_courses', {'id':module.id} ) }}">Volver</a>
 {% endblock %}

@@ -14,7 +14,6 @@ class ModuleType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('program')
         ;
     }
 

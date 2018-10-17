@@ -29,7 +29,8 @@ class ProgramController extends AbstractController
      */
     public function modules(Program $program, ModuleRepository $moduleRepository): Response
     {
-        return $this->render('program/modules.html.twig', ['modules' => $moduleRepository->findAll(),'program' => $program]);
+        $modules = $moduleRepository->findBy(['program'=>$program]);
+        return $this->render('program/modules.html.twig', ['modules'=>$modules,'program' => $program]);
     }
 
     /**
@@ -74,7 +75,7 @@ class ProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('program_edit', ['id' => $program->getId()]);
+            return $this->redirectToRoute('program_index');
         }
 
         return $this->render('program/edit.html.twig', [

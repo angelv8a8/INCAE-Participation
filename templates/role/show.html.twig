@@ -12,15 +12,15 @@
                 <td>{{ role.id }}</td>
             </tr>
             <tr>
-                <th>Code</th>
+                <th>Codigo</th>
                 <td>{{ role.code }}</td>
             </tr>
             <tr>
-                <th>Name</th>
+                <th>Nombre</th>
                 <td>{{ role.name }}</td>
             </tr>
             <tr>
-                <th>Description</th>
+                <th>Descripción</th>
                 <td>{{ role.description }}</td>
             </tr>
             <tr>
@@ -36,9 +36,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('role_index') }}">back to list</a>
+    <a class="btn btn-primary" href="{{ path('role_index') }}">Volver</a>
 
-    <a href="{{ path('role_edit', {'id': role.id}) }}">edit</a>
+    <a class="btn btn-warning" href="{{ path('role_edit', {'id': role.id}) }}">Modfiicar</a>
 
     {{ include('role/_delete_form.html.twig') }}
 {% endblock %}

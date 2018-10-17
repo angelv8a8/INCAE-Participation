@@ -12,9 +12,9 @@ class SessionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('studentCanUpdate')
+            ->add('name',null,array('label'=>'Nombre'))
+            ->add('description',null,array('label'=>'Descripción','required'=>false)) 
+            ->add('studentCanUpdate',null,array('label'=>'Abrir a revisión de estudiantes?','data'=>true))
         ;
     }
 

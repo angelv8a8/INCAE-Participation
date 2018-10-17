@@ -23,9 +23,8 @@
                 <td>{{ program.description }}</td>
                 <td>{{ program.year }}</td>
                 <td>
-                    <a href="{{ path('program_show', {'id': program.id}) }}">show</a>
-                    <a href="{{ path('program_edit', {'id': program.id}) }}">edit</a>
-                    <a href="{{ path('program_modules', {'id': program.id}) }}">Modulos</a>
+                    <a class="btn btn-primary" href="{{ path('program_show', {'id': program.id}) }}"> Ver </a> 
+                    <a class="btn btn-info" href="{{ path('program_modules', {'id': program.id}) }}">Modulos</a>
                 </td>
             </tr>
         {% else %}
@@ -36,5 +35,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('program_new') }}">Create new</a>
+    <a class="btn btn-success" href="{{ path('program_new') }}"> <i class="fa fa-plus"></i> Crear Programa</a>
 {% endblock %}

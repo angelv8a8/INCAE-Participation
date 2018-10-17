@@ -1,13 +1,13 @@
 {% extends 'dashboard.html.twig' %}
 
-{% block title %}Edit Program{% endblock %}
+{% block title %}Modificar Programa{% endblock %}
 
 {% block body %}
-    <h1>Edit Program</h1>
+    <h1>Modificar programa</h1>
 
-    {{ include('program/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('program/_form.html.twig', {'button_label': 'Actualizar'}) }}
 
-    <a href="{{ path('program_index') }}">back to list</a>
+    <a class="btn btn-warning" href="{{ path('program_index') }}">Cancelar</a>
 
     {{ include('program/_delete_form.html.twig') }}
 {% endblock %}

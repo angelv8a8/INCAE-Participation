@@ -20,20 +20,32 @@
 {% block body %}
 
 <div class="row">
-    <div class="col-12 col-md-8">
+    <div class="col-12 col-md-6">
         <h1>{{ session.name}} </h1>
     </div>
     
-    <div class="col-12 col-md-4 text-right">
+    <div class="col-12 col-md-6 text-right">
+        <button onClick="location.reload()"  class="btn btn-default"> <i class="fa fa-sync"></i>  Actualizar</button>
         <a href="{{ path('teacher_session_review',{'id':session.id } ) }}"  class="btn btn-warning">Iniciar Revisión</a>
         {% if session.studentCanUpdate %}
-            <a href="{{ path('teacher_close_session',{'id':session.id } ) }}"  class="btn btn-danger">Cerrar sessión</a>
+            <a href="{{ path('teacher_close_session',{'id':session.id } ) }}"  class="btn btn-danger">Cerrar</a>
         {% else %}
             <a href="{{ path('teacher_open_session',{'id':session.id } ) }}" class="btn btn-default">Re-abrir</a>
         {% endif %}
     </div>
 </div>
 
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <p>Revisados por estudiante: {{ sessionDetails.studentReviewed }} / {{ sessionDetails.total }}</p>
+        <p>Revisados por profesor: {{ sessionDetails.studentReviewed }} / {{ sessionDetails.total }}</p>
+        
+    </div>
+    <div class="col-12 col-sm-6">
+        <p>Promedio estudiantes: {{ sessionDetails.studentAverage }}</p>
+        <p>Promedio profesor: {{ sessionDetails.teacherAverage }}</p>
+    </div>
+</div>
 
 <table class="table table-light">
     <tbody>
@@ -45,7 +57,7 @@
             <th>Nota Profesor</th>
             <th>Estado</th>
         </tr>
-        {%  for review in session.userCourseSession %}
+        {%  for review in userCourseSession %}
         <tr class="{{ review.teacherReviewed ? 'table-success' : (review.studentReviewed ? 'table-warning' : '') }}">
             <td>
                 <img class="list-image" src="{{ review.user.avatar ? avatar_location ~ review.user.avatar : 'images/default-user.png' }}" alt="">

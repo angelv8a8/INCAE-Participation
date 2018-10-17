@@ -25,6 +25,7 @@ class TeacherToolsController extends AbstractController
     public function course(SessionRepository $sessionRepository, Course $course)
     {
         $sessions = $sessionRepository->findByCourseWithTotals($course);
+
         return $this->render('teacher_tools/course.html.twig', [
             'course' => $course,
             'sessions' => $sessions 
@@ -34,10 +35,15 @@ class TeacherToolsController extends AbstractController
     /**
      * @Route("/course-session/{id}", name="teacher_course_session")
      */
-    public function session(Session $session)
+    public function session(Session $session, UserCourseSessionRepository $ucsr, SessionRepository $sessionRepository)
     {
+        $sessionDetails = $sessionRepository->findSessionDetails($session);
+
+        $userCourseSessions = $ucsr->findBy(array('courseSession'=>$session), array('studentReviewed'=>'DESC') );
         return $this->render('teacher_tools/session.html.twig', [
             'session' => $session,
+            'userCourseSession' => $userCourseSessions,
+            'sessionDetails' =>$sessionDetails
         ]);
     }
 

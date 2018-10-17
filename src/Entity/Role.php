@@ -35,7 +35,7 @@ class Role
 
     /**
      * Many Roles have Many Users.
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="userRoles")
+     * @ORM\ManyToMany(targetEntity="User",inversedBy="userRoles")
      */
     private $users;
 

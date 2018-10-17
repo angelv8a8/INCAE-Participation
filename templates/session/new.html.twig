@@ -2,10 +2,34 @@
 
 {% block title %}Nueva sesión{% endblock %}
 
+{% block breadcumb %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#">Inicio</a>
+    </li>
+    <li class="breadcrumb-item">Profesor</li>
+    <li class="breadcrumb-item ">
+        <a href="{{ path('teacher_course',{'id':course.id} ) }}">{{ course.getLongName }}</a>
+    </li>
+    <li class="breadcrumb-item active">Nueva sesión</li>
+    </ol>
+
+{% endblock %}
+
+
 {% block body %}
     <h1>Crear sesión</h1>
 
-    {{ include('session/_form.html.twig') }}
+    <div class="row">
+        <div class="col m-3">
+            {{ include('session/_form.html.twig') }}      
+        </div>
+    </div>
+    <div class="row">
+        <div class="col m-3">
+            <a class="btn btn-warning" href="{{ path('teacher_course',{'id':course.id}) }}">Cancelar</a>
+        </div>
+    </div>
 
-    <a href="{{ path('teacher_course',{'id':course.id}) }}">Cancelar</a>
+    
 {% endblock %}

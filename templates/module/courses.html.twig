@@ -2,17 +2,29 @@
 
 {% block title %}Course index{% endblock %}
 
+{% block breadcumb %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="/">Inicio</a>
+    </li>
+    <li class="breadcrumb-item"><a href="{{ path('program_index') }}"> Programas </a></li>
+    <li class="breadcrumb-item"><a href="{{path('program_modules', {'id':module.program.id} ) }} ">  {{ module.program.name }}</a> </li>
+    <li class="breadcrumb-item">{{ module.name }}</li>
+    </ol>
+
+{% endblock %}
+
 {% block body %}
-    <h1>Cursos en {{module}}</h1>
+    <h1>Cursos </h1>
 
     <table class="table">
         <thead>
             <tr>
                 
                 <th>Curso</th>
-                <th>Code</th>
+                <th>Codigo</th>
                 <th>Participantes</th>
-                <th>actions</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -24,19 +36,20 @@
                     Estudiantes: {{ course.students | length }}
                     <br>
                     Profesores: {{ course.teachers | length }}
+                    <br>
+                    Sesiones: {{ course.sessions | length }}
                 </td>
                 <td>
-                    <a href="{{ path('course_show', {'id': course.id}) }}">show</a>
-                    <a href="{{ path('course_edit', {'id': course.id}) }}">edit</a>
+                    <a class="btn btn-info"  href="{{ path('course_show', {'id': course.id}) }}">Ver</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">No hay cursos</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('course_new') }}">Create new</a>
+    <a class="btn btn-success" href="{{ path('course_new',{'id':module.id}) }}"> <i class="fa fa-plus"></i> Crear curso</a>
 {% endblock %}

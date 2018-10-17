@@ -35,6 +35,18 @@
                 </td>
             </tr>
             <tr>
+                <th>Sesiones</th>
+                <td>
+                Total: {{ course.sessions|length}}
+                <ul>
+                  {% for session in course.sessions %}
+                    <li> {{ session.name }}</li>
+                {% endfor %}
+                </ul>
+                
+                </td>
+            </tr>
+            <tr>
                 <th>Estudiantes</th>
                 <td>
                 Total: {{ course.students|length}}

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/role")
+ * @Route("/admin/role")
  */
 class RoleController extends AbstractController
 {
@@ -65,7 +65,7 @@ class RoleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('role_edit', ['id' => $role->getId()]);
+            return $this->redirectToRoute('role_show', ['id' => $role->getId()]);
         }
 
         return $this->render('role/edit.html.twig', [

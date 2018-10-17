@@ -12,19 +12,23 @@
                 <td>{{ module.id }}</td>
             </tr>
             <tr>
-                <th>Name</th>
+                <th>Nombre</th>
                 <td>{{ module.name }}</td>
             </tr>
             <tr>
-                <th>Description</th>
+                <th>Descripción</th>
                 <td>{{ module.description }}</td>
+            </tr>
+            <tr>
+                <th>Programa</th>
+                <td>{{ module.program }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('module_index') }}">back to list</a>
+    <a class="btn btn-primary" href="{{ path('program_modules',{'id': module.program.id}) }}">Volver</a>
 
-    <a href="{{ path('module_edit', {'id': module.id}) }}">edit</a>
+    <a class="btn btn-warning" href="{{ path('module_edit', {'id': module.id}) }}">Modificar</a>
 
     {{ include('module/_delete_form.html.twig') }}
 {% endblock %}

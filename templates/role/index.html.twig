@@ -3,16 +3,19 @@
 {% block title %}Role index{% endblock %}
 
 {% block body %}
-    <h1>Role index</h1>
-
+    <h1>Roles </h1>
+    <p>Los roles necesarios son ROLE_STUDENT, ROLE_TEACHER, ROLE_ADMIN</p>
+    <div class="alert alert-danger">
+        No modifique estos roles si no esta seguro para qué sirven
+    </div>
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>actions</th>
+                <th>Codigo</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -23,17 +26,16 @@
                 <td>{{ role.name }}</td>
                 <td>{{ role.description }}</td>
                 <td>
-                    <a href="{{ path('role_show', {'id': role.id}) }}">show</a>
-                    <a href="{{ path('role_edit', {'id': role.id}) }}">edit</a>
+                    <a class="btn btn-info" href="{{ path('role_show', {'id': role.id}) }}">Ver</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">No hay registros</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('role_new') }}">Create new</a>
+    <a class="btn btn-success" href="{{ path('role_new') }}">Crear</a>
 {% endblock %}

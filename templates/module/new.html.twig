@@ -5,7 +5,9 @@
 {% block body %}
     <h1>Crear Modulo</h1>
 
+    <p>Crear modulo en: <b>{{program.name}}</b></p>
+
     {{ include('module/_form.html.twig') }}
 
-    <a href="{{ path('module_index') }}">Regresar</a>
+    <a href="{{ path('program_modules',{'id':program.id}) }}">Regresar</a>
 {% endblock %}
