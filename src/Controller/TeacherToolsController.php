@@ -82,10 +82,19 @@ class TeacherToolsController extends AbstractController
 
             return $this->redirectToRoute('teacher_session_review', ['id' => $userCourseSession->getCourseSession()->getId()]);
         }
-        else
+        else if($userCourseSession)
         {
             if($userCourseSession->getStudentNote())
                 $form->get('teacherNote')->setData($userCourseSession->getStudentNote() );
+        }
+        else
+        {
+            $this->addFlash(
+                'success',
+                'Se han evaluado todos los estudiantes.'
+            );
+            return $this->redirectToRoute('teacher_course_session',['id'=>$session->getId()]);
+
         }
 
         return $this->render('teacher_tools/session-review.html.twig', [
