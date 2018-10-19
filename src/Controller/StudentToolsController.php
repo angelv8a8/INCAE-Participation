@@ -39,6 +39,15 @@ class StudentToolsController extends AbstractController
      */
     public function session(Request $request, UserCourseSession $userCourseSession)
     {
+        if($userCourseSession->getUser()->getId() != $this->getUser()->getId())
+        {
+            $this->addFlash(
+                'danger',
+                'Accion no autorizada.'
+            );
+
+            return $this->redirectToRoute('dashboard');
+        }
 
         $form = $this->createForm(UserCourseSessionType::class, $userCourseSession);
         $form->handleRequest($request);

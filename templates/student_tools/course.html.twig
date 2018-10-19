@@ -24,10 +24,14 @@
 </div>
 
 <div class="row">
-    <div class="col">
+    <div class="col-12 col-sm-6">
         <h2>Sesiones</h2>
     </div>
+    <div class="col-12 col-sm-6">
+        <canvas id="myChart"></canvas>
+    </div>
 </div>
+
 
 <div class="row">
     <div class="col">
@@ -73,4 +77,76 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block javascripts %}
+
+<script type="text/javascript">
+var labels = [
+        {% for userCourseSession in sessions | reverse%}
+                "{{userCourseSession.courseSession.name}}",
+            {% endfor %}
+    ];
+
+    var studentData = 
+        [
+                {% for userCourseSession in sessions | reverse %}
+                {{userCourseSession.studentNote ? userCourseSession.studentNote  : 0}},
+                {% endfor %}
+            ]
+    ;
+    var teacherData = 
+        [
+                {% for userCourseSession in sessions | reverse %}
+                {{userCourseSession.teacherNote ? userCourseSession.teacherNote : 0}},
+                {% endfor %}
+            ]
+    ;
+$(document).ready(function () {
+
+    if(labels.length <= 1)
+        return;
+    
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+    // The data for our dataset
+    data: {
+        labels: labels,
+        datasets: [{
+            backgroundColor: 'rgba(255,99,132,0.2)',
+			borderColor: 'rgba(255,99,132,1)',
+            label: "Autoevaluación",
+            data: studentData
+                },
+                {
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+			borderColor: 'rgba(54, 162, 235, 1)',
+            label: "Nota Profesor",
+            data: teacherData
+                }
+                ],
+            options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Evaluación'
+				},
+				scales: {
+					yAxes: [{
+						ticks: {
+							min: 0,
+							max: 5,
+                            stepSize: 1,
+						}
+					}]
+				}
+			}
+          } 
+        })
+    });
+
+
+</script>
 {% endblock %}

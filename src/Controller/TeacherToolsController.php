@@ -8,6 +8,8 @@ use App\Entity\Course;
 use App\Entity\Session;
 use App\Entity\UserCourseSession;
 use App\Repository\SessionRepository;
+use App\Repository\CourseRepository;
+use App\Repository\UserRepository;
 use App\Repository\UserCourseSessionRepository;
 use App\Form\UserCourseSessionReviewType;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,6 +46,21 @@ class TeacherToolsController extends AbstractController
             'session' => $session,
             'userCourseSession' => $userCourseSessions,
             'sessionDetails' =>$sessionDetails
+        ]);
+    }
+
+    /**
+     * @Route("/course-student-notes/{id}", name="teacher_course_student_notes")
+     */
+    public function studentNotes(Course $course, UserRepository $userRepository)
+    {
+        $students = $userRepository->findStudentSummary($course);
+
+        //$userCourseSessions = $ucsr->findBy(array('courseSession'=>$session), array('studentReviewed'=>'DESC') );
+
+        return $this->render('teacher_tools/course-results.html.twig', [
+            'students' => $students,
+            'course' =>$course
         ]);
     }
 

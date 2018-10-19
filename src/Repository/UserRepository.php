@@ -19,6 +19,25 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function findStudentSummary($course)
+    {
+        return $this->createQueryBuilder('u')
+            ->addSelect('u.incaeId')
+            ->addSelect('u.fullName')
+            ->addSelect('count(s.id) as sessions')
+            ->addSelect('avg(ucs.teacherNote) as finalNote')
+            ->innerJoin('u.reviews','ucs')
+            ->innerJoin('ucs.courseSession','s')
+            ->innerJoin('s.course','c')
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $course->getId())
+            ->orderBy('u.firstName', 'ASC')
+            ->groupBy('u.incaeId, u.fullName')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

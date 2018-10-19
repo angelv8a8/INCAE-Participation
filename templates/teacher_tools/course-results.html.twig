@@ -1,0 +1,47 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %} {{course.name }} {% endblock %}
+
+{% block breadcumb %}
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#">Inicio</a>
+    </li>
+    <li class="breadcrumb-item">Profesor</li>
+    <li class="breadcrumb-item active"> 
+        <a href="{{ path('teacher_course',{'id':course.id} ) }}">{{ course.getName }}</a>
+    </li>
+    <li class="breadcrumb-item active">
+        Resultados
+    </li>
+    </ol>
+
+{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <h1>{{ course.name}} {{ students|length}} </h1>
+</div>
+
+
+<table class="table table-light">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Sesiones</th>
+            <th>Nota promedio</th>
+            
+        </tr>
+        {%  for student in students %}
+        <tr>
+            <td>{{ student.incaeId }}</td>
+            <td>{{ student.fullName }}</td>
+            <td>{{ student.sessions }}</td>
+            <td>{{ student.finalNote | number_format(2) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

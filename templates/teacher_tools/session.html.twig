@@ -41,9 +41,9 @@
         <p>Revisados por profesor: {{ sessionDetails.studentReviewed }} / {{ sessionDetails.total }}</p>
         
     </div>
-    <div class="col-12 col-sm-6">
-        <p>Promedio estudiantes: {{ sessionDetails.studentAverage }}</p>
-        <p>Promedio profesor: {{ sessionDetails.teacherAverage }}</p>
+    <div class="col-12 col-sm-6 text-right">
+        <p>Promedio estudiantes: {{ sessionDetails.studentAverage | number_format(2) }}</p>
+        <p>Promedio profesor: {{ sessionDetails.teacherAverage |  number_format(2) }}</p>
     </div>
 </div>
 

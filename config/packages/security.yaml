@@ -37,8 +37,8 @@ security:
     access_control:
          - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/admin/*, roles: ROLE_ADMIN }
-         - { path: ^/profesor/*, roles: ROLE_TEACHER }
-         - { path: ^/estudiante/*, roles: ROLE_STUDENT }
+         - { path: ^/teacher/*, roles: ROLE_TEACHER }
+         - { path: ^/student/*, roles: ROLE_STUDENT }
          - { path: ^/*, roles: ROLE_USER }
          
          

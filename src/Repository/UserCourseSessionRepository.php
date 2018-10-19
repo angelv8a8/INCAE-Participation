@@ -53,7 +53,7 @@ class UserCourseSessionRepository extends ServiceEntityRepository
         ;
     }
 
-    
+ 
 
     /*
     public function findOneBySomeField($value): ?UserCourseSession
