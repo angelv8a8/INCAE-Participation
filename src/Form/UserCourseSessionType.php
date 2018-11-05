@@ -18,8 +18,8 @@ class UserCourseSessionType extends AbstractType
                     '0 - No asistí' => 0,
                     '1 - Asistí pero no realicé los ejercicios ni participé activamente' => 1,
                     '2 - Asistí y realicé los ejercicios' => 2,
-                    '3 - Asistí, realicé los ejercicios y participé ocacionalmente' => 3,
-                    '4 - Asistí, realicé los ejercicios y constantemente aportando a la discución' => 4
+                    '3 - Asistí, realicé los ejercicios y participé ocasionalmente' => 3,
+                    '4 - Asistí, realicé los ejercicios y participé constantemente aportando a la discusión' => 4
                 ),
                 'label' => 'Evaluación de estudiante')
                 )
