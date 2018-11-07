@@ -1,2 +1,2 @@
 Connect to phpMySQL on google console:
-ssh -N -L 8888:127.0.0.1:80 -i ~/Documents/incae-class.pem bitnami@35.23253.167
+ssh -N -L 8888:127.0.0.1:80 -i ~/Documents/incae-class.pem bitnami@35.232.153.167

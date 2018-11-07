@@ -20,7 +20,7 @@
 
 {% block body %}
 <div class="example-wrapper">
-    <h1>{{ course.name}} {{ students|length}} </h1>
+    <h1>{{ course.name}} {{ users|length}} </h1>
 </div>
 
 <div class="row">
@@ -29,21 +29,22 @@
     </div>
 </div>
 
-<table class="table table-light">
-    <tbody>
+<table class="table table-light table-sm text-sm table-bordered">
+    <thead class="thead-dark">
         <tr>
             <th>Id</th>
             <th>Nombre</th>
-            <th>Sesiones</th>
-            <th>Nota promedio</th>
-            
+            {%  for session in sessions %}
+            <th>{{session.name}}</th>
+            {% endfor %}
         </tr>
-        {%  for student in students %}
+        </thead>
+        <tbody>
+        {%  for studentRecord in users %}
         <tr>
-            <td>{{ student.incaeId }}</td>
-            <td>{{ student.fullName }}</td>
-            <td>{{ student.sessions }}</td>
-            <td>{{ student.finalNote | number_format(2) }}</td>
+            {%  for field in studentRecord %}
+            <td>{{ field }} &nbsp;</td>
+            {% endfor %}
         </tr>
         {% endfor %}
     </tbody>

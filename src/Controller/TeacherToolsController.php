@@ -50,6 +50,51 @@ class TeacherToolsController extends AbstractController
     }
 
     /**
+     * @Route("/course-student-notes-export/{id}", name="teacher_course_student_notes_exports")
+     */
+     public function studentNotesExport(Course $course, UserCourseSessionRepository $ucsr, SessionRepository $sessionRepository)
+     {
+
+        $sessions = $sessionRepository->findBy(array('course'=>$course),array('id'=>'asc'));
+
+        $headers = array('Id','Nombre') ;
+
+        foreach($sessions as $session )
+        {
+            $headers[]  = $session->getName();
+        }
+
+        $rows = array();
+        $rows[] ="\xEF\xBB\xBF"; // UTF-8 BOM
+        $rows[] = implode(',', $headers );
+        
+        
+        foreach($course->getStudents() as $student)
+        {
+            $userNotes = $ucsr->findUserNotes($course, $student);
+
+            $notes = array();
+            $notes[] = $student->getIncaeId();
+            $notes[] = $student->getFullName();
+
+            foreach($userNotes as $sessionNote)
+            {
+                $notes[] = $sessionNote['teacherNote'] ? $sessionNote['teacherNote'] : $sessionNote['studentNote'];
+            }
+            $rows[] = implode(',', $notes);
+        }
+
+        $content = implode("\n", $rows);
+        $response = new Response($content);
+        $response->headers->set('Content-Encoding', 'UTF-8');
+        $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+        $response->headers->set('Content-Disposition', 'attachment; filename='. $course->getLongName() .'.csv' );
+        
+        return $response;
+
+     }
+
+    /**
      * @Route("/course-student-notes/{id}", name="teacher_course_student_notes")
      */
     public function studentNotes(Course $course, UserRepository $userRepository)
@@ -61,6 +106,39 @@ class TeacherToolsController extends AbstractController
         return $this->render('teacher_tools/course-results.html.twig', [
             'students' => $students,
             'course' =>$course
+        ]);
+    }
+
+    /**
+     * @Route("/course-student-notes-detail/{id}", name="teacher_course_student_notes_detail")
+     */
+    public function studentNotesDetail(Course $course, UserCourseSessionRepository $ucsr, SessionRepository $sessionRepository)
+    {
+        $sessions = $sessionRepository->findBy(array('course'=>$course),array('id'=>'asc'));
+
+        $users = array();
+
+        foreach($course->getStudents() as $student)
+        {
+            $userNotes = $ucsr->findUserNotes($course, $student);
+
+            $notes = array();
+            $notes[] = $student->getIncaeId();
+            $notes[] = $student->getFullName();
+
+            foreach($userNotes as $sessionNote)
+            {
+                $notes[] = $sessionNote['teacherNote'] ? $sessionNote['teacherNote'] : $sessionNote['studentNote'];
+            }
+            $users[] = $notes;
+        }
+
+        //$userCourseSessions = $ucsr->findBy(array('courseSession'=>$session), array('studentReviewed'=>'DESC') );
+
+        return $this->render('teacher_tools/course-results-detail.html.twig', [
+            'course' =>$course,
+            'sessions' => $sessions,
+            'users' => $users
         ]);
     }
 

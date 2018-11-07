@@ -23,6 +23,8 @@ class UserRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('u')
             ->addSelect('u.incaeId')
+            ->addSelect('u.firstName')
+            ->addSelect('u.lastName')
             ->addSelect('u.fullName')
             ->addSelect('count(s.id) as sessions')
             ->addSelect('avg(ucs.teacherNote) as finalNote')

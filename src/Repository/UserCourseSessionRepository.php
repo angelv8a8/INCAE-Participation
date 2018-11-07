@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\UserCourseSession;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * @method UserCourseSession|null find($id, $lockMode = null, $lockVersion = null)
@@ -55,15 +56,24 @@ class UserCourseSessionRepository extends ServiceEntityRepository
 
  
 
-    /*
-    public function findOneBySomeField($value): ?UserCourseSession
+    /**
+     * @return UserCourseSession[] Returns an array of UserCourseSession objects
+     */
+    public function findUserNotes($course, $user)
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('id', 'id');
+        $rsm->addScalarResult('name', 'name');
+        $rsm->addScalarResult('date', 'date');
+        $rsm->addScalarResult('student_note', 'studentNote');
+        $rsm->addScalarResult('teacher_note', 'teacherNote');
+
+        $query = $this->getEntityManager()->createNativeQuery('select s.id, s.name, s.date, ucs.student_note, teacher_note from (select * from session where course_id = ?) s left join (select * from user_course_session where user_id = ?) ucs on s.id = ucs.course_session_id order by s.id asc', $rsm);
+        $query->setParameter(1, $course->getId());
+        $query->setParameter(2, $user->getId());
+
+        return $query->getResult();
+
     }
-    */
+    
 }
