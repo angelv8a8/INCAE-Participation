@@ -1,2 +1,18 @@
-Connect to phpMySQL on google console:
-ssh -N -L 8888:127.0.0.1:80 -i ~/Documents/incae-class.pem bitnami@35.232.153.167
+
+INCAE Participation
+
+Small POC project. The web page will allow students and teachers to keep record of 
+their assistance and participations during class. 
+
+Students can log their participations at the end of each session and rate them in a scale from 0 to 5.
+
+Teachers can then review the student logged participations and confirm or modify the assigned score.
+
+Teachers can generate new sessions and export in CSV all the records.
+
+Admin account can generate programs, modules, courses, students, techaers, etc.
+
+TODO:
+- Generate admin tools to load class and students in batch.
+- improve reporting
+- Improve UI/UX
