@@ -1,6 +1,10 @@
 
-INCAE Participation
+# INCAE Participation
 
+## Framework
+PHP with Symfony framework. Database is 
+
+## Description:
 Small POC project. The web page will allow students and teachers to keep record of 
 their assistance and participations during class. 
 
@@ -12,7 +16,8 @@ Teachers can generate new sessions and export in CSV all the records.
 
 Admin account can generate programs, modules, courses, students, techaers, etc.
 
-TODO:
+
+## TODO:
 - Generate admin tools to load class and students in batch.
 - improve reporting
 - Improve UI/UX
